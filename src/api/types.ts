@@ -37,6 +37,11 @@ export interface TypeResponse {
   }[];
 }
 
+export interface GenerationResponse {
+  name: string;
+  pokemon_species: NamedApiResource[];
+}
+
 // Domain model used by the app/components — decoupled from the API's shape
 
 export type PokemonType = string;

@@ -1,6 +1,17 @@
 import type { Preview } from '@storybook/react-vite'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 const preview: Preview = {
+  decorators: [
+    (Story) => {
+      const queryClient = new QueryClient();
+      return (
+        <QueryClientProvider client={queryClient}>
+          <Story />
+        </QueryClientProvider>
+      );
+    },
+  ],
   parameters: {
     controls: {
       matchers: {

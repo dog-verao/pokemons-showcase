@@ -1,4 +1,5 @@
 import type {
+  GenerationResponse,
   Pokemon,
   PokemonDetailResponse,
   PokemonListResponse,
@@ -52,6 +53,12 @@ export function fetchPokemonByType(type: string): Promise<TypeResponse> {
   return pokeApiFetch<TypeResponse>(`/type/${type}`);
 }
 
+export function fetchPokemonByGeneration(
+  generation: string,
+): Promise<GenerationResponse> {
+  return pokeApiFetch<GenerationResponse>(`/generation/${generation}`);
+}
+
 export async function getPokemonDetail(name: string): Promise<Pokemon> {
   const detail = await fetchPokemonByName(name);
   return toPokemon(detail);
@@ -62,4 +69,14 @@ export async function getPokemonSummariesByType(
 ): Promise<PokemonSummary[]> {
   const res = await fetchPokemonByType(type);
   return res.pokemon.map((p) => p.pokemon);
+}
+
+// /generation only exposes species, not the pokemon resource itself, but
+// base-form species and pokemon share the same name, which is good enough
+// for filtering purposes here.
+export async function getPokemonSummariesByGeneration(
+  generation: string,
+): Promise<PokemonSummary[]> {
+  const res = await fetchPokemonByGeneration(generation);
+  return res.pokemon_species;
 }

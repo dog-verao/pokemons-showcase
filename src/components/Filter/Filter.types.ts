@@ -49,4 +49,6 @@ export const INITIAL_FILTER_STATE: FilterState = {
 
 export type FilterComponentProps = {
   onChange?: (filters: FilterState) => void;
+  typeOptions?: string[];
+  generationOptions?: string[];
 };

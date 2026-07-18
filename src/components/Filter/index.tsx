@@ -9,7 +9,11 @@ import {
 } from "./Filter.types";
 import type { FilterComponentProps, FilterState } from "./Filter.types";
 
-const Filter: React.FC<FilterComponentProps> = ({ onChange }) => {
+const Filter: React.FC<FilterComponentProps> = ({
+  onChange,
+  typeOptions = [...POKEMON_TYPES],
+  generationOptions = [...POKEMON_GENERATIONS],
+}) => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
   const updateFilters = (patch: Partial<FilterState>) => {
@@ -23,13 +27,13 @@ const Filter: React.FC<FilterComponentProps> = ({ onChange }) => {
       <Typography>Filters</Typography>
       <Autocomplete
         label="Type"
-        options={[...POKEMON_TYPES]}
+        options={typeOptions}
         value={filters.type}
         onChange={(value) => updateFilters({ type: value })}
       />
       <Autocomplete
         label="Generation"
-        options={[...POKEMON_GENERATIONS]}
+        options={generationOptions}
         value={filters.generation}
         onChange={(value) => updateFilters({ generation: value })}
       />

@@ -22,6 +22,7 @@ export const Autocomplete: React.FC<AutocompleteProps> = ({
 
   return (
     <BaseAutocomplete
+      sx={{ width: "100%" }}
       multiple
       onKeyDown={handlePressEnter}
       options={options}

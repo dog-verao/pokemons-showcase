@@ -9,6 +9,13 @@ const meta = {
   parameters: {
     layout: "centered",
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 320, padding: 16 }}>
+        <Story />
+      </div>
+    ),
+  ],
   tags: ["autodocs"],
   args: { onChange: fn() },
 } satisfies Meta<typeof Autocomplete>;

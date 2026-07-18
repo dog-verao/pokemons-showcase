@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Typography } from "@/Typography";
+import { Typography } from "../Typography";
 import { Stack } from "@mui/material";
-import { Autocomplete } from "@/components/Autocomplete";
+import { Autocomplete } from "../Autocomplete";
 import { POKEMON_TYPES } from "./Filter.types";
 import type { FilterComponentProps } from "./Filter.types";
 

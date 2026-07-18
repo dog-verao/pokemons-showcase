@@ -1,10 +1,10 @@
-export { Typography } from "../Typography";
-export type { TypographyProps } from "../Typography/Typography.types";
+export { Typography } from "./Typography";
+export type { TypographyProps } from "./Typography/Typography.types";
 
-export { default as PokemonCard } from "../PokemonCard";
+export { default as PokemonCard } from "./PokemonCard";
 
-export { PokemonGrid } from "../PokemonGrid";
-export type { PokemonGridProps } from "../PokemonGrid/PokemonGrid.types";
+export { PokemonGrid } from "./PokemonGrid";
+export type { PokemonGridProps } from "./PokemonGrid/PokemonGrid.types";
 
 export { default as Filter } from "./Filter";
 export type {

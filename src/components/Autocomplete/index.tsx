@@ -1,15 +1,29 @@
 import React from "react";
-import { Autocomplete as MuiAutocomplete, TextField } from "@mui/material";
+import { Autocomplete as BaseAutocomplete, TextField } from "@mui/material";
 import type { AutocompleteProps } from "./Autocomplete.types";
 
 export const Autocomplete: React.FC<AutocompleteProps> = ({
   options,
   label,
-  value = null,
+  value = [],
   onChange,
 }) => {
+  const handlePressEnter = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const target = event.target as HTMLInputElement;
+      const inputValue: string = target.value.trim();
+
+      if (inputValue && options.includes(inputValue)) {
+        onChange?.([...value, inputValue]);
+      }
+    }
+  };
+
   return (
-    <MuiAutocomplete
+    <BaseAutocomplete
+      multiple
+      onKeyDown={handlePressEnter}
       options={options}
       value={value}
       onChange={(_event, newValue) => onChange?.(newValue)}

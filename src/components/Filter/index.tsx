@@ -2,17 +2,20 @@ import React, { useState } from "react";
 import { Typography } from "../Typography";
 import { Stack } from "@mui/material";
 import { Autocomplete } from "../Autocomplete";
-import { POKEMON_TYPES } from "./Filter.types";
-import type { FilterComponentProps } from "./Filter.types";
+import {
+  INITIAL_FILTER_STATE,
+  POKEMON_GENERATIONS,
+  POKEMON_TYPES,
+} from "./Filter.types";
+import type { FilterComponentProps, FilterState } from "./Filter.types";
 
 const Filter: React.FC<FilterComponentProps> = ({ onChange }) => {
-  const [type, setType] = useState<string | null>(null);
+  const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
 
-  const handleTypeChange = (value: string | null) => {
-    setType(value);
-    if (value) {
-      onChange?.({ type: "type", value });
-    }
+  const updateFilters = (patch: Partial<FilterState>) => {
+    const next = { ...filters, ...patch };
+    setFilters(next);
+    onChange?.(next);
   };
 
   return (
@@ -21,8 +24,14 @@ const Filter: React.FC<FilterComponentProps> = ({ onChange }) => {
       <Autocomplete
         label="Type"
         options={[...POKEMON_TYPES]}
-        value={type}
-        onChange={handleTypeChange}
+        value={filters.type}
+        onChange={(value) => updateFilters({ type: value })}
+      />
+      <Autocomplete
+        label="Generation"
+        options={[...POKEMON_GENERATIONS]}
+        value={filters.generation}
+        onChange={(value) => updateFilters({ generation: value })}
       />
     </Stack>
   );

@@ -35,11 +35,18 @@ export type PokemonGeneration = (typeof POKEMON_GENERATIONS)[number];
 
 export type FilterTypes = "type" | "name" | "generation";
 
-export type FilterProps = {
-  type: FilterTypes;
-  value: string | number;
+export type FilterState = {
+  type: string[];
+  generation: string[];
+  name: string;
+};
+
+export const INITIAL_FILTER_STATE: FilterState = {
+  type: [],
+  generation: [],
+  name: "",
 };
 
 export type FilterComponentProps = {
-  onChange?: (filter: FilterProps) => void;
+  onChange?: (filters: FilterState) => void;
 };

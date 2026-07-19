@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Stack } from "@mui/material";
 import { Typography } from "../Typography";
 import type { PokemonGridProps } from "./PokemonGrid.types";
 import { Filter } from "@/components";
@@ -31,7 +31,17 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
       <Grid container spacing={2}>
         {headline && (
           <Grid size={12}>
-            <Typography component="h1">{headline}</Typography>
+            <Stack
+              sx={{
+                padding: 2,
+                position: "sticky",
+                top: 0,
+                backgroundColor: "background.paper",
+                zIndex: 1,
+              }}
+            >
+              <Typography component="h1">{headline}</Typography>
+            </Stack>
           </Grid>
         )}
         <Grid size={headline ? 8 : 12}>

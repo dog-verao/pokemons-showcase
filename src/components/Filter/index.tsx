@@ -46,8 +46,29 @@ const Filter: React.FC<FilterComponentProps> = ({
   };
 
   return (
-    <Stack component="fieldset" spacing={2} sx={{ border: 0, m: 0, p: 0 }}>
-      <Typography component="legend" sx={{ p: 0 }}>
+    <Stack
+      component="fieldset"
+      spacing={2}
+      sx={{
+        border: 0,
+        m: 0,
+        p: 3,
+        borderRadius: 2,
+        bgcolor: "background.paper",
+        boxShadow: 1,
+      }}
+    >
+      <Typography
+        component="legend"
+        sx={{
+          p: 0,
+          fontWeight: 700,
+          fontSize: "13px",
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+          color: "text.secondary",
+        }}
+      >
         Filters
       </Typography>
       <Autocomplete

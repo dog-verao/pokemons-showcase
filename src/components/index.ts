@@ -29,3 +29,6 @@ export type { LoadingProps } from "./Loading/Loading.types";
 
 export { TextFilter } from "./TextFilter";
 export type { TextFilterProps } from "./TextFilter/TextFilter.types";
+
+export { TypeChip } from "./TypeChip";
+export type { TypeChipProps } from "./TypeChip/TypeChip.types";

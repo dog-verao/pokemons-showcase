@@ -1,19 +1,13 @@
 import React from "react";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Chip,
-  Stack,
-} from "@mui/material";
+import { Card, CardActionArea, CardContent, CardMedia, Stack } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Typography } from "../Typography";
+import { TypeChip } from "../TypeChip";
 import {
   formatGenerationLabel,
   getPokemonGeneration,
 } from "../../api/pokemonGeneration";
-import { getPokemonTypeColor, getPokemonTypeGradient } from "../../theme/theme";
+import { getPokemonTypeGradient } from "../../theme/theme";
 import type { PokemonCardProps } from "./PokemonCard.types";
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
@@ -36,15 +30,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
       <Typography color="text.secondary">{dexNumber}</Typography>
       <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: "wrap" }}>
         {pokemon.types.map((type) => (
-          <Chip
-            key={type}
-            label={`${type.charAt(0).toUpperCase()}${type.slice(1)}`}
-            size="small"
-            sx={{
-              bgcolor: getPokemonTypeColor(theme, type),
-              color: "#fff",
-            }}
-          />
+          <TypeChip key={type} type={type} />
         ))}
       </Stack>
       {generation && (

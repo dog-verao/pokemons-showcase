@@ -14,6 +14,23 @@ declare module "@mui/material/styles" {
 
 export const theme = createTheme({
   pokemonTypes: POKEMON_TYPE_COLORS,
+  components: {
+    MuiChip: {
+      styleOverrides: {
+        root: {
+          fontWeight: 600,
+        },
+      },
+    },
+    MuiPagination: {
+      styleOverrides: {
+        root: {
+          display: "flex",
+          justifyContent: "center",
+        },
+      },
+    },
+  },
 });
 
 export function getPokemonTypeColor(

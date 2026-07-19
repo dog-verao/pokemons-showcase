@@ -6,12 +6,14 @@ export const Typography: React.FC<TypographyProps> = ({
   fontSize,
   color,
   children,
+  sx,
 }) => {
   return (
     <BaseTypography
       sx={{
         fontSize,
         color,
+        ...sx,
       }}
     >
       {children}

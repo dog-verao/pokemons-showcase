@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { CircularProgress, Container, Grid } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Typography } from "../Typography";
 import type { PokemonGridProps } from "./PokemonGrid.types";
 import { Filter } from "@/components";
 import { INITIAL_FILTER_STATE } from "../Filter/Filter.types";
 import type { FilterState } from "../Filter/Filter.types";
 import { useGetAllPokemons } from "../../hooks/useGetAllPokemons";
+import { Loading } from "../Loading";
 
 const PAGE_SIZE = 20;
 
@@ -30,7 +31,7 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
           </Grid>
         )}
         <Grid size={12}>
-          {isLoading && <CircularProgress aria-label="Loading pokemons" />}
+          {isLoading && <Loading label="Loading pokemons" size={200} />}
           {isError && (
             <Typography color="error">
               {error?.message ?? "Something went wrong loading pokemons."}

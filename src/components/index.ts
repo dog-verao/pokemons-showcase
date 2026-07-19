@@ -22,3 +22,6 @@ export {
 
 export { Autocomplete } from "./Autocomplete";
 export type { AutocompleteProps } from "./Autocomplete/Autocomplete.types";
+
+export { Loading } from "./Loading";
+export type { LoadingProps } from "./Loading/Loading.types";

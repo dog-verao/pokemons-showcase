@@ -7,16 +7,20 @@ import {
   Chip,
   Stack,
 } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import { Typography } from "../Typography";
 import {
   formatGenerationLabel,
   getPokemonGeneration,
 } from "../../api/pokemonGeneration";
+import { getPokemonTypeColor, getPokemonTypeGradient } from "../../theme/theme";
 import type { PokemonCardProps } from "./PokemonCard.types";
 
 const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
+  const theme = useTheme();
   const generation = getPokemonGeneration(pokemon.id);
   const dexNumber = `#${String(pokemon.id).padStart(3, "0")}`;
+  const mainType = pokemon.types[0] ?? "normal";
 
   const body = (
     <CardContent>
@@ -36,6 +40,10 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
             key={type}
             label={`${type.charAt(0).toUpperCase()}${type.slice(1)}`}
             size="small"
+            sx={{
+              bgcolor: getPokemonTypeColor(theme, type),
+              color: "#fff",
+            }}
           />
         ))}
       </Stack>
@@ -50,8 +58,7 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
   return (
     <Card
       sx={{
-        background:
-          "linear-gradient(135deg, #FCFAF5 0%, #F8F2E6 45%, #F3E8CF 100%)",
+        background: getPokemonTypeGradient(theme, mainType),
         height: "100%",
       }}
     >

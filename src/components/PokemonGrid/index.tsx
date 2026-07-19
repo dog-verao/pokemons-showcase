@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Grid, Pagination } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { Typography } from "../Typography";
 import type { PokemonGridProps } from "./PokemonGrid.types";
 import { Filter } from "@/components";
@@ -42,28 +42,25 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
             </Typography>
           )}
           {!isLoading && !isError && (
-            <>
-              <Grid container spacing={2}>
-                {pokemons.map((pokemon) => (
-                  <Grid key={pokemon.id} size={3}>
-                    <PokemonCard
-                      pokemon={pokemon}
-                      href={`/pokemon/${pokemon.name}`}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-              <Pagination
-                count={pageCount}
-                page={page + 1}
-                onChange={(_event, value) => setPage(value - 1)}
-                sx={{ mt: 2, display: "flex", justifyContent: "center" }}
-              />
-            </>
+            <Grid container spacing={2}>
+              {pokemons.map((pokemon) => (
+                <Grid key={pokemon.id} size={3}>
+                  <PokemonCard
+                    pokemon={pokemon}
+                    href={`/pokemon/${pokemon.name}`}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           )}
         </Grid>
         <Grid size={headline ? 4 : 12}>
-          <Filter onChange={handleFiltersChange} />
+          <Filter
+            onChange={handleFiltersChange}
+            page={page}
+            pageCount={pageCount}
+            onPageChange={setPage}
+          />
         </Grid>
       </Grid>
     </Container>

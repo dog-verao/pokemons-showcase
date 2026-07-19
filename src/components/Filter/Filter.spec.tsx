@@ -68,4 +68,15 @@ describe("Filter", () => {
 
     vi.useRealTimers();
   });
+
+  it("reports the selected page when pagination is used", async () => {
+    const user = userEvent.setup();
+    const onPageChange = vi.fn();
+
+    render(<Filter page={0} pageCount={3} onPageChange={onPageChange} />);
+
+    await user.click(screen.getByRole("button", { name: "Go to page 2" }));
+
+    expect(onPageChange).toHaveBeenCalledWith(1);
+  });
 });

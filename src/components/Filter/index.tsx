@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Typography } from "../Typography";
-import { Stack } from "@mui/material";
+import { Pagination, Stack } from "@mui/material";
 import { Autocomplete } from "../Autocomplete";
 import {
   INITIAL_FILTER_STATE,
@@ -16,6 +16,9 @@ const Filter: React.FC<FilterComponentProps> = ({
   onChange,
   typeOptions = [...POKEMON_TYPES],
   generationOptions = [...POKEMON_GENERATIONS],
+  page = 0,
+  pageCount = 1,
+  onPageChange,
 }) => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
@@ -63,6 +66,11 @@ const Filter: React.FC<FilterComponentProps> = ({
         label="Name"
         value={filters.name}
         onChange={(value) => updateFilters({ name: value })}
+      />
+      <Pagination
+        count={pageCount}
+        page={page + 1}
+        onChange={(_event, value) => onPageChange?.(value - 1)}
       />
     </Stack>
   );

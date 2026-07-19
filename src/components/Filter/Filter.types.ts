@@ -51,4 +51,7 @@ export type FilterComponentProps = {
   onChange?: (filters: FilterState) => void;
   typeOptions?: string[];
   generationOptions?: string[];
+  page?: number;
+  pageCount?: number;
+  onPageChange?: (page: number) => void;
 };

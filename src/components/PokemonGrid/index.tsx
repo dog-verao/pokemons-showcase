@@ -7,6 +7,7 @@ import { INITIAL_FILTER_STATE } from "../Filter/Filter.types";
 import type { FilterState } from "../Filter/Filter.types";
 import { useGetAllPokemons } from "../../hooks/useGetAllPokemons";
 import { Loading } from "../Loading";
+import PokemonCard from "../PokemonCard";
 
 const PAGE_SIZE = 20;
 
@@ -37,7 +38,7 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
             <Grid container spacing={2}>
               {pokemons.map((pokemon) => (
                 <Grid key={pokemon.id} size={3}>
-                  <Typography>{pokemon.name}</Typography>
+                  <PokemonCard pokemon={pokemon} href={`/pokemon/${pokemon.name}`} />
                 </Grid>
               ))}
             </Grid>

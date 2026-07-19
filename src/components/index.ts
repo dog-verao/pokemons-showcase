@@ -2,6 +2,7 @@ export { Typography } from "./Typography";
 export type { TypographyProps } from "./Typography/Typography.types";
 
 export { default as PokemonCard } from "./PokemonCard";
+export type { PokemonCardProps } from "./PokemonCard/PokemonCard.types";
 
 export { PokemonGrid } from "./PokemonGrid";
 export type { PokemonGridProps } from "./PokemonGrid/PokemonGrid.types";

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Filter from ".";
 
@@ -42,5 +42,30 @@ describe("Filter", () => {
       generation: ["generation-i"],
       name: "",
     });
+  });
+
+  it("debounces the name filter instead of reporting on every keystroke", () => {
+    vi.useFakeTimers();
+    const onChange = vi.fn();
+
+    render(<Filter onChange={onChange} />);
+
+    const input = screen.getByLabelText("Name");
+    fireEvent.change(input, { target: { value: "p" } });
+    fireEvent.change(input, { target: { value: "pi" } });
+    fireEvent.change(input, { target: { value: "pik" } });
+
+    expect(onChange).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(600);
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith({
+      type: [],
+      generation: [],
+      name: "pik",
+    });
+
+    vi.useRealTimers();
   });
 });

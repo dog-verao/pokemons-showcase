@@ -17,8 +17,9 @@ export const Loading: React.FC<LoadingProps> = ({
       aria-label={label}
       sx={{ width: size, height: size, mx: "auto" }}
     >
-      {View}
+      <Box aria-hidden="true">{View}</Box>
       <Typography
+        aria-hidden="true"
         sx={{
           textAlign: "center",
         }}

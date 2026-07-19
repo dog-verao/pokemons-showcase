@@ -1,5 +1,6 @@
 import { useQueries, useQuery } from "@tanstack/react-query";
 import {
+  fetchPokemonByName,
   fetchPokemonList,
   getPokemonDetail,
   getPokemonSummariesByGeneration,
@@ -7,6 +8,15 @@ import {
 } from "../api/pokemonAdapter";
 import type { Pokemon, PokemonSummary } from "../api/types";
 import type { FilterState } from "../components/Filter/Filter.types";
+
+async function pokemonNameExists(name: string): Promise<boolean> {
+  try {
+    await fetchPokemonByName(name);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export type PaginationParams = {
   page: number;
@@ -72,18 +82,17 @@ async function getFilteredCandidates(
         : intersectByName(candidates, generationCandidates);
   }
 
-  if (candidates === null) {
-    candidates = [];
+  const name = filters.name.trim().toLowerCase();
+
+  if (name) {
+    if (candidates === null) {
+      const exists = await pokemonNameExists(name);
+      return exists ? [{ name, url: "" }] : [];
+    }
+    return candidates.filter((summary) => summary.name.toLowerCase() === name);
   }
 
-  if (filters.name.trim()) {
-    const query = filters.name.trim().toLowerCase();
-    candidates = candidates.filter((summary) =>
-      summary.name.toLowerCase().includes(query),
-    );
-  }
-
-  return candidates;
+  return candidates ?? [];
 }
 
 export function useGetAllPokemons(

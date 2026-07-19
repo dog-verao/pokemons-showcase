@@ -12,28 +12,24 @@ const PAGE_SIZE = 20;
 
 export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
-  const [page] = useState(0);
 
   const { pokemons, isLoading, isError, error } = useGetAllPokemons(filters, {
-    page,
+    page: 0,
     pageSize: PAGE_SIZE,
   });
 
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid size={headline ? 4 : 12}>
-          <Filter onChange={setFilters} />
-        </Grid>
         {headline && (
-          <Grid size={8}>
-            <Typography>{headline}</Typography>
+          <Grid size={12}>
+            <Typography component="h1">{headline}</Typography>
           </Grid>
         )}
-        <Grid size={12}>
+        <Grid size={headline ? 8 : 12}>
           {isLoading && <Loading label="Loading pokemons" size={200} />}
           {isError && (
-            <Typography color="error">
+            <Typography role="alert" color="error">
               {error?.message ?? "Something went wrong loading pokemons."}
             </Typography>
           )}
@@ -46,6 +42,9 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
               ))}
             </Grid>
           )}
+        </Grid>
+        <Grid size={headline ? 4 : 12}>
+          <Filter onChange={setFilters} />
         </Grid>
       </Grid>
     </Container>

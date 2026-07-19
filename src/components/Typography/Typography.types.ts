@@ -1,8 +1,6 @@
-import type { SxProps, Theme } from "@mui/material/styles";
+import type { TypographyProps as MuiTypographyProps } from "@mui/material/Typography";
 
-export type TypographyProps = {
+export type TypographyProps = Omit<MuiTypographyProps, "color"> & {
   fontSize?: CSSStyleDeclaration["fontSize"];
   color?: CSSStyleDeclaration["color"];
-  children: React.ReactNode;
-  sx?: SxProps<Theme>;
 };

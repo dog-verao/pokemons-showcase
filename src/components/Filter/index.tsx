@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Typography } from "../Typography";
 import { Stack } from "@mui/material";
 import { Autocomplete } from "../Autocomplete";
@@ -8,6 +8,9 @@ import {
   POKEMON_TYPES,
 } from "./Filter.types";
 import type { FilterComponentProps, FilterState } from "./Filter.types";
+import { TextFilter } from "../TextFilter";
+
+const NAME_DEBOUNCE_MS = 600;
 
 const Filter: React.FC<FilterComponentProps> = ({
   onChange,
@@ -15,16 +18,35 @@ const Filter: React.FC<FilterComponentProps> = ({
   generationOptions = [...POKEMON_GENERATIONS],
 }) => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
+
+  useEffect(() => {
+    return () => clearTimeout(debounceTimer.current);
+  }, []);
 
   const updateFilters = (patch: Partial<FilterState>) => {
     const next = { ...filters, ...patch };
     setFilters(next);
-    onChange?.(next);
+
+    clearTimeout(debounceTimer.current);
+
+    if ("name" in patch) {
+      debounceTimer.current = setTimeout(
+        () => onChange?.(next),
+        NAME_DEBOUNCE_MS,
+      );
+    } else {
+      onChange?.(next);
+    }
   };
 
   return (
-    <Stack spacing={2}>
-      <Typography>Filters</Typography>
+    <Stack component="fieldset" spacing={2} sx={{ border: 0, m: 0, p: 0 }}>
+      <Typography component="legend" sx={{ p: 0 }}>
+        Filters
+      </Typography>
       <Autocomplete
         label="Type"
         options={typeOptions}
@@ -36,6 +58,11 @@ const Filter: React.FC<FilterComponentProps> = ({
         options={generationOptions}
         value={filters.generation}
         onChange={(value) => updateFilters({ generation: value })}
+      />
+      <TextFilter
+        label="Name"
+        value={filters.name}
+        onChange={(value) => updateFilters({ name: value })}
       />
     </Stack>
   );

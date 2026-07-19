@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Grid, Stack } from "@mui/material";
+import { Box, Container, Grid, Stack } from "@mui/material";
 import { Typography } from "../Typography";
 import type { PokemonGridProps } from "./PokemonGrid.types";
 import { Filter } from "@/components";
@@ -10,6 +10,7 @@ import { Loading } from "../Loading";
 import PokemonCard from "../PokemonCard";
 
 const PAGE_SIZE = 20;
+const HEADER_HEIGHT = 72;
 
 export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
@@ -27,17 +28,16 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
   };
 
   return (
-    <Container>
+    <Container sx={{ py: 4 }} maxWidth="lg">
       <Grid container spacing={2}>
         {headline && (
           <Grid size={12}>
             <Stack
               sx={{
+                justifyContent: "center",
                 padding: 2,
-                position: "sticky",
                 top: 0,
-                backgroundColor: "background.paper",
-                zIndex: 1,
+                zIndex: 2,
               }}
             >
               <Typography component="h1">{headline}</Typography>
@@ -65,12 +65,20 @@ export const PokemonGrid: React.FC<PokemonGridProps> = ({ headline }) => {
           )}
         </Grid>
         <Grid size={headline ? 4 : 12}>
-          <Filter
-            onChange={handleFiltersChange}
-            page={page}
-            pageCount={pageCount}
-            onPageChange={setPage}
-          />
+          <Box
+            sx={{
+              position: "sticky",
+              top: headline ? HEADER_HEIGHT : 0,
+              zIndex: 1,
+            }}
+          >
+            <Filter
+              onChange={handleFiltersChange}
+              page={page}
+              pageCount={pageCount}
+              onPageChange={setPage}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Container>

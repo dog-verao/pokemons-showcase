@@ -1,5 +1,11 @@
 import React from "react";
-import { Card, CardActionArea, CardContent, CardMedia, Stack } from "@mui/material";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Stack,
+} from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Typography } from "../Typography";
 import { TypeChip } from "../TypeChip";
@@ -28,9 +34,13 @@ const PokemonCard: React.FC<PokemonCardProps> = ({ pokemon, href }) => {
         {pokemon.name}
       </Typography>
       <Typography color="text.secondary">{dexNumber}</Typography>
-      <Stack direction="row" spacing={1} sx={{ mt: 1, flexWrap: "wrap" }}>
+      <Stack
+        direction="row"
+        spacing={1}
+        sx={{ mt: 1, flexWrap: "wrap", justifyContent: "center", gap: 1 }}
+      >
         {pokemon.types.map((type) => (
-          <TypeChip key={type} type={type} />
+          <TypeChip key={type} type={type} size="small" />
         ))}
       </Stack>
       {generation && (

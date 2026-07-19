@@ -23,3 +23,12 @@ export const WithHeadline: Story = {
 export const WithoutHeadline: Story = {
   args: {},
 };
+
+export const Mobile: Story = {
+  args: {
+    headline: "These are our Pokemon",
+  },
+  globals: {
+    viewport: { value: "375-812", isRotated: false },
+  },
+};

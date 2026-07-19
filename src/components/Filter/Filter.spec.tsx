@@ -1,4 +1,9 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Filter from ".";
 
@@ -78,5 +83,67 @@ describe("Filter", () => {
     await user.click(screen.getByRole("button", { name: "Go to page 2" }));
 
     expect(onPageChange).toHaveBeenCalledWith(1);
+  });
+
+  it("caps the visible pagination buttons to first, current and last page", () => {
+    render(<Filter page={0} pageCount={10} onPageChange={vi.fn()} />);
+
+    expect(screen.getByRole("button", { name: "page 1" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Go to page 10" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Go to page 5" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("collapses into a button that opens a drawer on mobile", async () => {
+    const originalMatchMedia = window.matchMedia;
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    const user = userEvent.setup();
+    render(<Filter />);
+
+    expect(screen.queryByLabelText("Type")).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Open filters" }));
+
+    expect(screen.getByLabelText("Type")).toBeInTheDocument();
+
+    window.matchMedia = originalMatchMedia;
+  });
+
+  it("closes the drawer when the close button is clicked", async () => {
+    const originalMatchMedia = window.matchMedia;
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    const user = userEvent.setup();
+    render(<Filter />);
+
+    await user.click(screen.getByRole("button", { name: "Open filters" }));
+    expect(screen.getByLabelText("Type")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Close filters" }));
+    await waitForElementToBeRemoved(() => screen.queryByLabelText("Type"));
+
+    window.matchMedia = originalMatchMedia;
   });
 });

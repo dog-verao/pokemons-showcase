@@ -35,3 +35,9 @@ export const CustomOptions: Story = {
     generationOptions: ["fourth option", "fifth option", "sixth option"],
   },
 };
+
+export const Mobile: Story = {
+  globals: {
+    viewport: { value: "375-812", isRotated: false },
+  },
+};

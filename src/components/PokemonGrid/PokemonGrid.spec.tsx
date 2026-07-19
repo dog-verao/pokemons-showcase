@@ -56,4 +56,27 @@ describe("PokemonGrid", () => {
       );
     });
   });
+
+  it("renders the compact mobile layout on small screens", () => {
+    const originalMatchMedia = window.matchMedia;
+    window.matchMedia = vi.fn().mockImplementation((query: string) => ({
+      matches: true,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    }));
+
+    renderWithProviders(<PokemonGrid headline={HEADLINE} />);
+
+    expect(screen.getByText(HEADLINE)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Open filters" }),
+    ).toBeInTheDocument();
+
+    window.matchMedia = originalMatchMedia;
+  });
 });

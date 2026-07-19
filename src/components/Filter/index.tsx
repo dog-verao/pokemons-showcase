@@ -1,6 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Typography } from "../Typography";
-import { Pagination, Stack } from "@mui/material";
+import {
+  IconButton,
+  Drawer,
+  Pagination,
+  Stack,
+  useMediaQuery,
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import CloseIcon from "@mui/icons-material/Close";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { Autocomplete } from "../Autocomplete";
 import {
   INITIAL_FILTER_STATE,
@@ -20,6 +29,9 @@ const Filter: React.FC<FilterComponentProps> = ({
   pageCount = 1,
   onPageChange,
 }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [filters, setFilters] = useState<FilterState>(INITIAL_FILTER_STATE);
   const debounceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
     undefined,
@@ -45,7 +57,7 @@ const Filter: React.FC<FilterComponentProps> = ({
     }
   };
 
-  return (
+  const filterFields = (
     <Stack
       component="fieldset"
       spacing={2}
@@ -55,7 +67,7 @@ const Filter: React.FC<FilterComponentProps> = ({
         p: 3,
         borderRadius: 2,
         bgcolor: "background.paper",
-        boxShadow: 1,
+        boxShadow: isMobile ? 0 : 1,
       }}
     >
       <Typography
@@ -92,8 +104,42 @@ const Filter: React.FC<FilterComponentProps> = ({
         count={pageCount}
         page={page + 1}
         onChange={(_event, value) => onPageChange?.(value - 1)}
+        siblingCount={0}
+        boundaryCount={1}
       />
     </Stack>
+  );
+
+  if (!isMobile) {
+    return filterFields;
+  }
+
+  return (
+    <>
+      <IconButton
+        onClick={() => setDrawerOpen(true)}
+        color="primary"
+        aria-label="Open filters"
+      >
+        <FilterListIcon />
+      </IconButton>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        slotProps={{ paper: { sx: { width: 300, p: 2 } } }}
+      >
+        <Stack direction="row" sx={{ justifyContent: "flex-end" }}>
+          <IconButton
+            onClick={() => setDrawerOpen(false)}
+            aria-label="Close filters"
+          >
+            <CloseIcon />
+          </IconButton>
+        </Stack>
+        {filterFields}
+      </Drawer>
+    </>
   );
 };
 

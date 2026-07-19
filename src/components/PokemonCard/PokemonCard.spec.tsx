@@ -14,7 +14,7 @@ describe("PokemonCard", () => {
 
     expect(screen.getByText("pikachu")).toBeInTheDocument();
     expect(screen.getByText("#025")).toBeInTheDocument();
-    expect(screen.getByText("electric")).toBeInTheDocument();
+    expect(screen.getByText("Electric")).toBeInTheDocument();
   });
 
   it("derives the generation from the dex number", () => {
